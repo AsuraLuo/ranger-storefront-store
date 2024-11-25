@@ -1,8 +1,16 @@
-import Link from "next/link";
+import Button from "@mui/material/Button";
 
-import { StyledHeader, StyledInner } from "./styled";
+import { useRouter } from "@/hooks/Router";
+import Link from "@/components/Link";
+import { StyledHeader, StyledInner, StyledActions } from "./styled";
 
 const Header = () => {
+  const router = useRouter();
+
+  const onRedirect = (url: string) => {
+    router.push(url);
+  };
+
   return (
     <StyledHeader>
       <StyledInner>
@@ -23,6 +31,62 @@ const Header = () => {
           <Link href="/support">Support</Link>
         </div>
       </StyledInner>
+      <StyledActions>
+        <div className="grid">
+          <Button
+            variant="contained"
+            onClick={() => {
+              onRedirect("/login");
+            }}
+          >
+            Login
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              onRedirect("/register");
+            }}
+          >
+            Register
+          </Button>
+        </div>
+        <div className="grid">
+          <Button
+            variant="contained"
+            onClick={() => {
+              onRedirect("/store/cart");
+            }}
+          >
+            Cart
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              onRedirect("/store/checkout");
+            }}
+          >
+            Checkout
+          </Button>
+        </div>
+        <div className="grid">
+          <Button
+            variant="contained"
+            onClick={() => {
+              onRedirect("/choose-country");
+            }}
+          >
+            Choose Country
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              onRedirect("/support");
+            }}
+          >
+            Support
+          </Button>
+        </div>
+      </StyledActions>
     </StyledHeader>
   );
 };

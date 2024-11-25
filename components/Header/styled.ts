@@ -31,3 +31,18 @@ export const StyledInner = styled.div`
     }
   }
 `;
+
+export const StyledActions = styled.div`
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
+  align-items: center;
+
+  .grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 30px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+`;

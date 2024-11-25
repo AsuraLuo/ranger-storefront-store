@@ -2,7 +2,6 @@ import { NextRouter, useRouter as useNextRouter } from "next/router";
 import type { UrlObject } from "url";
 
 import { domainConf } from "@/config/domain.conf";
-import { usePathContext } from "@/provider/PathProvider";
 
 type Url = UrlObject | string;
 
@@ -13,14 +12,10 @@ interface TransitionOptions {
   unstable_skipClientCache?: boolean;
 }
 
+const { i18n, whiteList } = domainConf;
+
 export const useRouter = (): NextRouter => {
   const router = useNextRouter();
-  const {
-    i18n: { defaultLocale, locales },
-  } = domainConf;
-  const { basePath = "", locale } = usePathContext();
-  const prefix: string = locale === defaultLocale ? "" : `/${locale}`;
-  const isSlash: boolean = router.pathname === "/";
 
   const onPush = (
     url: Url,
@@ -28,16 +23,23 @@ export const useRouter = (): NextRouter => {
     options?: TransitionOptions
   ): Promise<boolean> => {
     if (typeof url === "string") {
-      return router.push(`${prefix}${basePath}${url}`, as, options);
+      const validWhite = whiteList.includes(url);
+      const params = validWhite ? { locale: i18n.defaultLocale } : {};
+      return router.push(url, as, {
+        ...options,
+        ...params,
+      });
     }
 
+    const validWhite = whiteList.includes(url.pathname as string);
+    const params = validWhite ? { locale: i18n.defaultLocale } : {};
     return router.push(
       {
         ...url,
-        pathname: `${prefix}${basePath}${url.pathname}`,
+        pathname: `${url.pathname}`,
       },
       as,
-      options
+      { ...options, ...params }
     );
   };
 
@@ -47,26 +49,25 @@ export const useRouter = (): NextRouter => {
     options?: TransitionOptions
   ): Promise<boolean> => {
     if (typeof url === "string") {
-      return router.replace(`${prefix}${basePath}${url}`, as, options);
+      const validWhite = whiteList.includes(url);
+      const params = validWhite ? { locale: i18n.defaultLocale } : {};
+      return router.replace(url, as, { ...options, ...params });
     }
 
+    const validWhite = whiteList.includes(url.pathname as string);
+    const params = validWhite ? { locale: i18n.defaultLocale } : {};
     return router.replace(
       {
         ...url,
-        pathname: `${prefix}${basePath}${url.pathname}`,
+        pathname: `${url.pathname}`,
       },
       as,
-      options
+      { ...options, ...params }
     );
   };
 
   return {
     ...router,
-    basePath,
-    defaultLocale,
-    pathname: `${prefix}${basePath}${isSlash ? "" : router.pathname}`,
-    locale,
-    locales,
     push: onPush,
     replace: onReplace,
   };

@@ -14,7 +14,7 @@ interface AppDocumentProps extends DocumentProps {
 
 const AppDocument = (props: AppDocumentProps) => {
   return (
-    <Html lang="en">
+    <Html lang={props.locale}>
       <Head>
         <meta name="charset" content="utf-8" />
         <link rel="icon" href="/favicon.ico" />
