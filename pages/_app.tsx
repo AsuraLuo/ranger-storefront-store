@@ -29,7 +29,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             maxWidth: "1280px",
             minHeight: "80dvh",
             margin: "0 auto",
-            padding: "20px",
+            padding: "20px 0",
           }}
         >
           <Component {...pageProps} />

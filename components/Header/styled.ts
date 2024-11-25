@@ -20,9 +20,14 @@ export const StyledInner = styled.div`
     grid-column-gap: 30px;
     justify-content: flex-start;
     align-items: center;
+  }
 
-    &:nth-of-type(2) {
-      align-self: center;
+  a {
+    color: inherit;
+    font-size: 18px;
+
+    &:hover {
+      color: #cf102d;
     }
   }
 `;

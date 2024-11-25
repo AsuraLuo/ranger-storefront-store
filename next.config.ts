@@ -1,11 +1,14 @@
 import type { NextConfig } from "next";
 
+import { domainConf } from "@/config/domain.conf";
+
+const { i18n } = domainConf;
+
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
   i18n: {
-    defaultLocale: "en",
-    locales: ["au", "at", "ca", "de", "en", "es", "fr", "it", "jp", "kr", "th"],
+    defaultLocale: i18n.defaultLocale,
+    locales: i18n.locales,
   },
   compiler: {
     emotion: {
