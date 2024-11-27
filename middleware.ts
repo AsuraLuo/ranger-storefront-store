@@ -32,6 +32,7 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     "127.0.0.1"; // Default for localhost or unknown
 
   console.log("Client IP:", ipAddress);
+
   // Call an external geolocation service
   try {
     const start = +new Date();
@@ -43,20 +44,22 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     console.info("middleware ip query cost...", +new Date() - start);
 
     // Determine the locale based on the geolocation data
-    const country: string = geoData?.data?.location?.country?.alpha2 ?? ""; // Default to 'US' if no data
-    const realLocale =
-      country.toLowerCase() === "US" ? "en" : country.toLowerCase();
+    const country: any = geoData?.data?.location?.country; // Default to 'US' if no data
+    const countryCode: string = (country?.alpha2 ?? "").toLowerCase();
+    const countryName: string = country?.name ?? "";
+    const realLocale = countryCode === "US" ? "en" : countryCode;
 
     // Auto location to match store
     if (locales.includes(realLocale)) {
-      console.info(locale, realLocale);
       if (locale === realLocale) {
         // Handle other requests normally
         const response = NextResponse.next();
         response.headers.set(cookie.key, locale);
         response.headers.set(ip.key, ipAddress);
+        response.headers.set(ip.countryKey, countryName);
         response.cookies.set(cookie.key, locale, cookie.options);
         response.cookies.set(ip.key, ipAddress, cookie.options);
+        response.cookies.set(ip.countryKey, countryName, cookie.options);
         return response;
       } else {
         url.locale = realLocale;
@@ -72,8 +75,10 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     const response = NextResponse.next();
     response.headers.set(cookie.key, locale);
     response.headers.set(ip.key, ipAddress);
+    response.headers.set(ip.countryKey, countryName);
     response.cookies.set(cookie.key, locale, cookie.options);
     response.cookies.set(ip.key, ipAddress, cookie.options);
+    response.cookies.set(ip.countryKey, countryName, cookie.options);
     return response;
   } catch (error) {
     console.info("error:", error);
