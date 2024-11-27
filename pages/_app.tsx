@@ -10,7 +10,8 @@ import GlobalStyled from "@/components/GlobalStyled";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps, router }: AppProps) => {
+  console.info(router.locale);
   return (
     <>
       <Head>

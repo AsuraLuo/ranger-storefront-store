@@ -4,6 +4,7 @@ import type { NextRequest, NextMiddleware } from "next/server";
 import { domainConf } from "@/config/domain.conf";
 
 const {
+  ip,
   i18n: { defaultLocale },
   cookie,
   whiteList,
@@ -24,11 +25,21 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
     return redirectReponse;
   }
 
+  // Get the IP address
+  const ipAddress =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || // Check for forwarded IP
+    request.headers.get("x-real-ip") || // Alternate forwarded IP header
+    "Unknown IP";
+
+  console.log("Client IP:", ipAddress);
+
   // Handle other requests normally
-  const reponse = NextResponse.next();
-  reponse.headers.set(cookie.key, locale);
-  reponse.cookies.set(cookie.key, locale, cookie.options);
-  return reponse;
+  const response = NextResponse.next();
+  response.headers.set(cookie.key, locale);
+  response.headers.set(ip.key, ipAddress);
+  response.cookies.set(cookie.key, locale, cookie.options);
+  response.cookies.set(ip.key, ipAddress, cookie.options);
+  return response;
 };
 
 export const config = {

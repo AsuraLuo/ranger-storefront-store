@@ -1,6 +1,9 @@
 import type { CookieSerializeOptions } from "@/interface/cookie";
 
 type DomainConf = {
+  ip: {
+    key: string;
+  };
   i18n: {
     locales: string[];
     defaultLocale: string;
@@ -13,6 +16,9 @@ type DomainConf = {
 };
 
 export const domainConf: DomainConf = {
+  ip: {
+    key: "x-real-ip",
+  },
   i18n: {
     locales: ["au", "at", "ca", "de", "en", "es", "fr", "it", "jp", "kr", "th"],
     defaultLocale: "en",
