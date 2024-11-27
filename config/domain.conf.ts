@@ -3,6 +3,7 @@ import type { CookieSerializeOptions } from "@/interface/cookie";
 type DomainConf = {
   ip: {
     key: string;
+    apikey: string;
   };
   i18n: {
     locales: string[];
@@ -18,6 +19,7 @@ type DomainConf = {
 export const domainConf: DomainConf = {
   ip: {
     key: "x-real-ip",
+    apikey: "ipb_live_nwgWUvuG2YXDTaP8gjdb9jlWkIMqdoS4XFOqAey2",
   },
   i18n: {
     locales: ["au", "at", "ca", "de", "en", "es", "fr", "it", "jp", "kr", "th"],
