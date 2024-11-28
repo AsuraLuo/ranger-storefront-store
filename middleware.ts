@@ -79,6 +79,16 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
         return redirectReponse;
       }
     }
+
+    // Handle other requests normally
+    const response = NextResponse.next();
+    response.headers.set(cookie.key, locale);
+    response.headers.set(ip.key, ipAddress);
+    response.headers.set(ip.countryKey, countryName);
+    response.cookies.set(cookie.key, locale, cookie.options);
+    response.cookies.set(ip.key, ipAddress, cookie.options);
+    response.cookies.set(ip.countryKey, countryName, cookie.options);
+    return response;
   } catch (error) {
     console.info("error:", error);
   }
