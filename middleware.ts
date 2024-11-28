@@ -27,10 +27,9 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
   // Get the client's IP address
   const ipAddress =
-    // request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || // Check for forwarded IP
-    // request.headers.get("x-real-ip") || // Alternate forwarded IP header
-    // "127.0.0.1"; // Default for localhost or unknown
-    "62.52.24.228";
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || // Check for forwarded IP
+    request.headers.get("x-real-ip") || // Alternate forwarded IP header
+    "127.0.0.1"; // Default for localhost or unknown
 
   console.log("Client IP:", ipAddress);
 
