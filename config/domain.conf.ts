@@ -4,7 +4,8 @@ type DomainConf = {
   ip: {
     key: string;
     countryKey: string;
-    apikey: string;
+    apiKey: string;
+    apiUrl: string;
   };
   i18n: {
     locales: string[];
@@ -21,7 +22,8 @@ export const domainConf: DomainConf = {
   ip: {
     key: "x-real-ip",
     countryKey: "x-country-name",
-    apikey: "ipb_live_nwgWUvuG2YXDTaP8gjdb9jlWkIMqdoS4XFOqAey2",
+    apiKey: "e8bf7e7d68a74486866272be6d07b9ea",
+    apiUrl: "https://api.ipgeolocation.io/ipgeo",
   },
   i18n: {
     locales: ["au", "at", "ca", "de", "en", "es", "fr", "it", "jp", "kr", "th"],

@@ -11,7 +11,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const App = ({ Component, pageProps, router }: AppProps) => {
-  console.info(router.locale);
   return (
     <>
       <Head>
@@ -33,7 +32,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
             padding: "20px 0",
           }}
         >
-          <Component {...pageProps} />
+          <Component {...pageProps} locale={router.locale} />
         </main>
         <Footer />
       </EmotionRegistry>

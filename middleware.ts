@@ -27,26 +27,36 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
   // Get the client's IP address
   const ipAddress =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || // Check for forwarded IP
-    request.headers.get("x-real-ip") || // Alternate forwarded IP header
-    "127.0.0.1"; // Default for localhost or unknown
+    // request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || // Check for forwarded IP
+    // request.headers.get("x-real-ip") || // Alternate forwarded IP header
+    // "127.0.0.1"; // Default for localhost or unknown
+    "62.52.24.228";
 
   console.log("Client IP:", ipAddress);
+
+  if (whiteList.includes(pathname)) {
+    // Handle other requests normally
+    const response = NextResponse.next();
+    response.headers.set(cookie.key, locale);
+    response.headers.set(ip.key, ipAddress);
+    response.cookies.set(cookie.key, locale, cookie.options);
+    response.cookies.set(ip.key, ipAddress, cookie.options);
+    return response;
+  }
 
   // Call an external geolocation service
   try {
     const start = +new Date();
     console.info("middleware ip query cost...", +new Date() - start);
     const geoResponse = await fetch(
-      `https://api.ipbase.com/v2/info?ip=${ipAddress}&apikey=${ip.apikey}`
+      `${ip.apiUrl}?ip=${ipAddress}&apiKey=${ip.apiKey}`
     );
     const geoData = await geoResponse.json();
     console.info("middleware ip query cost...", +new Date() - start);
 
     // Determine the locale based on the geolocation data
-    const country: any = geoData?.data?.location?.country; // Default to 'US' if no data
-    const countryCode: string = (country?.alpha2 ?? "").toLowerCase();
-    const countryName: string = country?.name ?? "";
+    const countryCode: string = (geoData?.country_code2 ?? "").toLowerCase();
+    const countryName: string = geoData?.country_name ?? "";
     const realLocale = countryCode === "US" ? "en" : countryCode;
 
     // Auto location to match store
@@ -70,16 +80,6 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
         return redirectReponse;
       }
     }
-
-    // Handle other requests normally
-    const response = NextResponse.next();
-    response.headers.set(cookie.key, locale);
-    response.headers.set(ip.key, ipAddress);
-    response.headers.set(ip.countryKey, countryName);
-    response.cookies.set(cookie.key, locale, cookie.options);
-    response.cookies.set(ip.key, ipAddress, cookie.options);
-    response.cookies.set(ip.countryKey, countryName, cookie.options);
-    return response;
   } catch (error) {
     console.info("error:", error);
   }
