@@ -5,7 +5,8 @@ import { domainConf } from "@/config/domain.conf";
 
 const {
   ip,
-  i18n: { defaultLocale, locales },
+  // i18n: { defaultLocale, locales },
+  i18n: { defaultLocale },
   cookie,
   whiteList,
 } = domainConf;
@@ -45,49 +46,49 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
   // Call an external geolocation service
   try {
-    const start = +new Date();
-    console.info("middleware ip query cost...", +new Date() - start);
-    const geoResponse = await fetch(
-      `${ip.apiUrl}?ip=${ipAddress}&apiKey=${ip.apiKey}`
-    );
-    const geoData = await geoResponse.json();
-    console.info("middleware ip query cost...", +new Date() - start);
+    // const start = +new Date();
+    // console.info("middleware ip query cost...", +new Date() - start);
+    // const geoResponse = await fetch(
+    //   `${ip.apiUrl}?ip=${ipAddress}&apiKey=${ip.apiKey}`
+    // );
+    // const geoData = await geoResponse.json();
+    // console.info("middleware ip query cost...", +new Date() - start);
 
-    // Determine the locale based on the geolocation data
-    const countryCode: string = (geoData?.country_code2 ?? "").toLowerCase();
-    const countryName: string = geoData?.country_name ?? "";
-    const realLocale = countryCode === "US" ? "en" : countryCode;
+    // // Determine the locale based on the geolocation data
+    // const countryCode: string = (geoData?.country_code2 ?? "").toLowerCase();
+    // const countryName: string = geoData?.country_name ?? "";
+    // const realLocale = countryCode === "US" ? "en" : countryCode;
 
-    // Auto location to match store
-    if (locales.includes(realLocale)) {
-      if (locale === realLocale) {
-        // Handle other requests normally
-        const response = NextResponse.next();
-        response.headers.set(cookie.key, locale);
-        response.headers.set(ip.key, ipAddress);
-        response.headers.set(ip.countryKey, countryName);
-        response.cookies.set(cookie.key, locale, cookie.options);
-        response.cookies.set(ip.key, ipAddress, cookie.options);
-        response.cookies.set(ip.countryKey, countryName, cookie.options);
-        return response;
-      } else {
-        url.locale = realLocale;
-        const redirectReponse = NextResponse.redirect(url);
-        // Set cookies for locale
-        redirectReponse.headers.set(cookie.key, realLocale);
-        redirectReponse.cookies.set(cookie.key, realLocale, cookie.options);
-        return redirectReponse;
-      }
-    }
+    // // Auto location to match store
+    // if (locales.includes(realLocale)) {
+    //   if (locale === realLocale) {
+    //     // Handle other requests normally
+    //     const response = NextResponse.next();
+    //     response.headers.set(cookie.key, locale);
+    //     response.headers.set(ip.key, ipAddress);
+    //     response.headers.set(ip.countryKey, countryName);
+    //     response.cookies.set(cookie.key, locale, cookie.options);
+    //     response.cookies.set(ip.key, ipAddress, cookie.options);
+    //     response.cookies.set(ip.countryKey, countryName, cookie.options);
+    //     return response;
+    //   } else {
+    //     url.locale = realLocale;
+    //     const redirectReponse = NextResponse.redirect(url);
+    //     // Set cookies for locale
+    //     redirectReponse.headers.set(cookie.key, realLocale);
+    //     redirectReponse.cookies.set(cookie.key, realLocale, cookie.options);
+    //     return redirectReponse;
+    //   }
+    // }
 
     // Handle other requests normally
     const response = NextResponse.next();
     response.headers.set(cookie.key, locale);
     response.headers.set(ip.key, ipAddress);
-    response.headers.set(ip.countryKey, countryName);
+    // response.headers.set(ip.countryKey, countryName);
     response.cookies.set(cookie.key, locale, cookie.options);
     response.cookies.set(ip.key, ipAddress, cookie.options);
-    response.cookies.set(ip.countryKey, countryName, cookie.options);
+    // response.cookies.set(ip.countryKey, countryName, cookie.options);
     return response;
   } catch (error) {
     console.info("error:", error);
