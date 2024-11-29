@@ -26,8 +26,21 @@ export const domainConf: DomainConf = {
     apiUrl: "https://api.ipgeolocation.io/ipgeo",
   },
   i18n: {
-    locales: ["au", "at", "ca", "de", "en", "es", "fr", "it", "jp", "kr", "th"],
-    defaultLocale: "en",
+    locales: [
+      "en-US",
+      "uk",
+      "au",
+      "at",
+      "ca",
+      "de",
+      "es",
+      "fr",
+      "it",
+      "jp",
+      "kr",
+      "th",
+    ],
+    defaultLocale: "en-US",
   },
   cookie: {
     key: "x-store-code",
