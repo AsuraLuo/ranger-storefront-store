@@ -1,23 +1,16 @@
-import { useEffect } from "react";
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import type { NextPageContext } from "next/types";
+import type { AxiosInstance } from "axios";
+
+interface PageContext extends NextPageContext {
+  axiosInstance: AxiosInstance;
+}
 
 const Home = ({ ...props }) => {
   const locale: string = props?.locale ?? "";
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      const response = await fetch("/api/geo", {
-        headers: { "X-Locale-Code": locale },
-      });
-      const result = await response.json();
-      console.info(result);
-    };
-
-    fetchApi();
-  }, [locale]);
 
   return (
     <>
@@ -34,6 +27,19 @@ const Home = ({ ...props }) => {
       </Container>
     </>
   );
+};
+
+Home.getInitialProps = async (ctx: PageContext) => {
+  const { axiosInstance } = ctx;
+
+  try {
+    const { data } = await axiosInstance.get("/api/geo");
+    console.info(data);
+  } catch (error: any) {
+    console.info(error);
+  }
+
+  return {};
 };
 
 export default Home;

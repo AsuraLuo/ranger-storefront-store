@@ -1,15 +1,27 @@
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 
+import { useAxios } from "@/provider";
 import { useRouter } from "@/hooks/Router";
 import Link from "@/components/Link";
 import { StyledHeader, StyledInner, StyledActions } from "./styled";
 
 const Header = () => {
+  const axiosInstance = useAxios();
   const router = useRouter();
 
   const onRedirect = (url: string) => {
     router.push(url);
   };
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const { data } = await axiosInstance.get("/api/status");
+      console.info(data);
+    };
+
+    fetchApi();
+  }, []);
 
   return (
     <StyledHeader>
