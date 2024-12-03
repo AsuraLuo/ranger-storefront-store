@@ -6,19 +6,49 @@ type InstanceType = {
 };
 
 export const createInstance = ({ locale }: InstanceType): AxiosInstance => {
+  const isServer: boolean = typeof window === "undefined";
+  const baseURL: string = isServer
+    ? (process.env.NEXT_PUBLIC_API_BASE_URL as string)
+    : window.location.origin;
   const instance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+    baseURL,
+    method: "GET",
     timeout: 5000,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest",
+    },
   });
 
-  instance.interceptors.request.use((config) => {
-    if (typeof window === "undefined") {
+  instance.interceptors.request.use(
+    (config) => {
       config.headers["x-locale-code"] = locale;
-    } else {
-      config.headers["x-locale-code"] = locale;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-    return config;
-  });
+  );
+
+  instance.interceptors.response.use(
+    (res) => {
+      if (res.status === 200 || res.status === 304) {
+        return Promise.resolve(res.data);
+      }
+      return Promise.resolve(res);
+    },
+    (error) => {
+      if (error && error.response) {
+        const res = {
+          code: error.response.status,
+          message: error.response,
+        };
+        return Promise.reject(res);
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return instance;
 };

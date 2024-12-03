@@ -16,7 +16,9 @@ const Header = () => {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const { data } = await axiosInstance.get("/api/status");
+      const { data } = await axiosInstance.get(
+        "/api/config/api/mallConfig/getCurrentTime"
+      );
       console.info(data);
     };
 
