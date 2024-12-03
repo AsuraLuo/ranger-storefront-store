@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "web",
+      "exec_mode": "cluster",
+      "script": "./node_modules/next/dist/bin/next",
+      "args": "start",
+      "instances": 1,
+      "watch": false,
+      "autorestart": true,
+      "error_file": "./logs/pm2-err.log"
+    }
+  ]
+}
