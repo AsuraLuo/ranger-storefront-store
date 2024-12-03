@@ -8,6 +8,9 @@
       "instances": 1,
       "watch": false,
       "autorestart": true,
+      "env": {
+        "PORT": 4000
+      },
       "error_file": "./logs/pm2-err.log"
     }
   ]

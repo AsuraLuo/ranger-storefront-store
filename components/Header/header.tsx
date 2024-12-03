@@ -23,7 +23,7 @@ const Header = () => {
     };
 
     fetchApi();
-  }, []);
+  }, [axiosInstance]);
 
   return (
     <StyledHeader>

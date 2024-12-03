@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 127.0.0.1 -p 3000",
+    "dev": "next dev -H 127.0.0.1 -p 4000",
     "turbo": "next dev --turbopack",
     "build": "next build",
-    "start": "pm2 start pm2.json",
-    "bootstrap": "next start",
+    "bootstrap": "pm2 start pm2.json",
+    "start": "next start -H 127.0.0.1 -p 4000",
     "lint": "next lint"
   },
   "dependencies": {

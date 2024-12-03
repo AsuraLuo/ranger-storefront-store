@@ -46,10 +46,13 @@ Home.getInitialProps = async (ctx: PageContext) => {
   const { axiosInstance } = ctx;
 
   try {
-    const { data } = await axiosInstance.get("/api/config/api/country/list");
+    const { data } = await axiosInstance.get("/api/config/api/country/list", {
+      // baseURL: "http://127.0.0.1:4000/",
+    });
+    console.info("data:", data);
     return { data };
   } catch (error: any) {
-    console.info(error);
+    console.info("error:", error);
     return { data: {} };
   }
 };
