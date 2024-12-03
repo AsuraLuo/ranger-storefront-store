@@ -6,10 +6,10 @@ import { domainConf } from "@/config/domain.conf";
 const { i18n } = domainConf;
 
 const apiMap: any = {
-  "en-US": "https://uat-api.olightstore.com",
-  uk: "https://uat-api.olightstore.uk",
-  fr: "https://uat-api.olightstore.fr",
-  ca: "https://uat-api.olightstore.ca",
+  "en-US": "https://uat-api.store.com",
+  uk: "https://uat-api.store.uk",
+  fr: "https://uat-api.store.fr",
+  ca: "https://uat-api.store.ca",
 };
 
 const apiProxy: any = createProxyMiddleware({
