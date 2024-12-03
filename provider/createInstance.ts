@@ -2,14 +2,16 @@ import axios from "axios";
 import type { AxiosInstance } from "axios";
 
 type InstanceType = {
+  domain: string;
   locale: string;
 };
 
-export const createInstance = ({ locale }: InstanceType): AxiosInstance => {
+export const createInstance = ({
+  domain,
+  locale,
+}: InstanceType): AxiosInstance => {
   const isServer: boolean = typeof window === "undefined";
-  const baseURL: string = isServer
-    ? (process.env.NEXT_PUBLIC_API_BASE_URL as string)
-    : window.location.origin;
+  const baseURL: string = isServer ? domain : window.location.origin;
   const instance = axios.create({
     baseURL,
     method: "GET",

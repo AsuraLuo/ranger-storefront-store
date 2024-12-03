@@ -10,7 +10,18 @@ export const withAxios = (App: any) =>
       const { router } = appContext;
       const { locale } = router;
 
-      const instance = createInstance({ locale });
+      const isServer: boolean = typeof window === "undefined";
+      const proto: string = isServer
+        ? appContext.ctx?.req?.headers?.["x-forwarded-proto"] ?? ""
+        : window.location.protocol;
+      const host: string = isServer
+        ? appContext.ctx?.req?.headers?.host ?? ""
+        : window.location.host;
+      const domain: string = isServer
+        ? `${proto}://${host}`
+        : `${proto}//${host}`;
+
+      const instance = createInstance({ domain, locale });
       // Provide the apollo to getInitialProps of pages
       appContext.ctx.axiosInstance = instance;
 
@@ -23,12 +34,16 @@ export const withAxios = (App: any) =>
       return {
         ...appProps,
         axiosInstance: instance,
+        domain,
       };
     }
 
     constructor(props: any) {
       super(props);
-      this.axiosInstance = createInstance({ locale: props?.router?.locale });
+      this.axiosInstance = createInstance({
+        locale: props?.router?.locale,
+        domain: props?.domain,
+      });
     }
 
     render() {
