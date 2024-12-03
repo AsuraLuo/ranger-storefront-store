@@ -6,8 +6,8 @@
     "dev": "next dev -H 127.0.0.1 -p 3000",
     "turbo": "next dev --turbopack",
     "build": "next build",
-    "bootstrap": "pm2 start pm2.json",
-    "start": "next start",
+    "start": "pm2 start pm2.json",
+    "bootstrap": "next start",
     "lint": "next lint"
   },
   "dependencies": {
