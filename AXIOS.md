@@ -122,6 +122,17 @@ export const withAxios = (App: any) =>
       return <App axiosInstance={this.axiosInstance} {...this.props} />;
     }
   };
+
+// 封装的高阶组件withAxios必须在_app.tsx里面进行使用，类似于withRedux
+App.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  const pageProps = Component.getInitialProps
+    ? await Component.getInitialProps({ ...ctx })
+    : {};
+
+  return { pageProps };
+};
+
+export default withAxios(App);
 ```
 
 #### 4. 封装 Context, Provider, useHooks 等，包裹 axios 实列 (axiosProvier.ts)
