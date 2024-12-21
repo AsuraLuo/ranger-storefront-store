@@ -23,7 +23,8 @@
     "pm2": "^5.4.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-json-view": "^1.21.3"
+    "react-json-view": "^1.21.3",
+    "react-scan": "^0.0.51"
   },
   "devDependencies": {
     "@types/node": "^22.9.1",

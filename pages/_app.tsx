@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { Profiler } from "react";
+import { withScan } from "react-scan";
 import CssBaseline from "@mui/material/CssBaseline";
 import type { AppProps, AppContext } from "next/app";
 import type { AxiosInstance } from "axios";
@@ -41,7 +43,28 @@ const App = ({ Component, pageProps, router, ...props }: NextAppProps) => {
               padding: "20px 0",
             }}
           >
-            <Component {...pageProps} locale={router.locale} />
+            <Profiler
+              id="MyComponent"
+              onRender={(
+                id,
+                phase,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime
+              ) => {
+                console.log("Profiler data:", {
+                  id,
+                  phase,
+                  actualDuration,
+                  baseDuration,
+                  startTime,
+                  commitTime,
+                });
+              }}
+            >
+              <Component {...pageProps} locale={router.locale} />
+            </Profiler>
           </main>
           <Footer />
         </EmotionRegistry>
@@ -58,4 +81,4 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   return { pageProps };
 };
 
-export default withAxios(App);
+export default withScan(withAxios(App));

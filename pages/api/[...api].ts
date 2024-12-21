@@ -26,12 +26,6 @@ const apiProxy: any = createProxyMiddleware({
 } as any);
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  // const locale = req.headers?.["x-locale-code"] as string;
-  // if (!i18n.locales.includes(locale)) {
-  //   res.status(400).json({ error: "Unsupported locale" });
-  //   return;
-  // }
-  // return res.status(200).json({ locale });
   apiProxy(req, res, (result: unknown) => {
     if (result instanceof Error) {
       throw result;

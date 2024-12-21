@@ -19,6 +19,7 @@ const AppDocument = (props: AppDocumentProps) => {
         <meta name="charset" content="utf-8" />
         <link rel="icon" href="/favicon.ico" />
         <DocumentHeadTags {...props} />
+        {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" /> */}
       </Head>
       <body>
         <Main />
