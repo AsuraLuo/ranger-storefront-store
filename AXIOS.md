@@ -261,3 +261,122 @@ export default Component;
 ```
 
 #### 9. 按照以上步骤进行集成，主要难点还是对于步骤 2， 5， 6 的改动集成
+
+## Axios API 修改原形
+
+#### 1. 服务端 SSR API 请求案列
+
+```tsx
+Home.getInitialProps = async (ctx: PageContext) => {
+  const { axiosInstance } = ctx;
+
+  try {
+    const { data } = await axiosInstance.get("/config/api/country/list");
+    return { data };
+  } catch (error: any) {
+    console.info("error:", error);
+    return { data: {} };
+  }
+};
+
+export default Home;
+```
+
+##### 2. 客户端 CSR API 请求案列
+
+```tsx
+import { useEffect } from "react";
+
+import { useAxios } from "@/provider";
+import Link from "@/components/Link";
+
+const Header = () => {
+  const axiosInstance = useAxios();
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const { data } = await axiosInstance.get(
+        "/config/api/mallConfig/getCurrentTime"
+      );
+      console.info(data);
+    };
+
+    fetchApi();
+  }, [axiosInstance]);
+
+  return (
+    <div className="grid">
+      <Link href="/">Website Home</Link>
+      <Link href="/login">Login</Link>
+      <Link href="/register">Register</Link>
+      <Link href="/store/retail">URL Key</Link>
+    </div>
+  );
+};
+
+export default Header;
+```
+
+## Axios API 修改真实参考案列
+
+#### 1. 修改 apis 目录下面的方法
+
+```ts
+import type { AxiosRequestConfig } from "axios";
+
+type ApiRequestConfig<Params = unknown> = AxiosRequestConfig & {
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  params?: Params;
+};
+
+export const homeApi = {
+  // 模块配置
+  // getPageDetails: <T>(data?: T, headers?: Headers) => {
+  //   return $post('/config/api/pages/getPageDetail', {
+  //    data,
+  //    headers
+  //   });
+  // },
+  getPageDetails: <T>(
+    data?: T,
+    headers?: Record<string, string>
+  ): ApiRequestConfig<T> => {
+    return {
+      method: "POST",
+      url: "/config/api/pages/getPageDetail",
+      data,
+      headers,
+    };
+  },
+};
+```
+
+#### 2. 替换调用发送 api 的地方(区分 SSR, CSR, instance 获取不一样)
+
+```tsx
+// SSR
+Page.getInitialProps = async (ctx: GetInitialProps) => {
+  const { axiosInstance } = ctx || {};
+
+  // const { data } = await homeApi.getPageDetails(params, requestHeaders);
+  const { data } = await axiosInstance(
+    homeApi.getPageDetails(params, requestHeaders)
+  );
+};
+```
+
+```tsx
+// CSR
+import { useAxios } from "@provider/index";
+
+const axiosInstance = useAxios();
+
+const handleQuery = () => {
+  // const { data } = await homeApi.getPageDetails(params);
+  //   data: params,
+  // });
+  const { data } = await axiosInstance(homeApi.getPageDetails(params));
+};
+```
+
+#### 3. 注释代码是原来代码，下方为替换代码，替换 api 必须本地测试通过，方可提交代码审核.
