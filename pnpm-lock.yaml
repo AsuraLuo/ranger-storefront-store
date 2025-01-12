@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   next@15.0.3:
-    hash: oenajtykngh3w4ftw5mokiee5e
+    hash: tdbqjgao73lgfi55mfic6unsrm
     path: patches/next@15.0.3.patch
 
 dependencies:
@@ -36,7 +36,7 @@ dependencies:
     version: 3.0.3
   next:
     specifier: ^15.0.3
-    version: 15.0.3(patch_hash=oenajtykngh3w4ftw5mokiee5e)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1)
+    version: 15.0.3(patch_hash=tdbqjgao73lgfi55mfic6unsrm)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1)
   nookies:
     specifier: ^2.5.2
     version: 2.5.2
@@ -1135,7 +1135,7 @@ packages:
       '@emotion/react': 11.13.5(@types/react@18.3.12)(react@18.3.1)
       '@emotion/server': 11.11.0
       '@types/react': 18.3.12
-      next: 15.0.3(patch_hash=oenajtykngh3w4ftw5mokiee5e)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1)
+      next: 15.0.3(patch_hash=tdbqjgao73lgfi55mfic6unsrm)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
     dev: false
 
@@ -3813,7 +3813,7 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: false
 
-  /next@15.0.3(patch_hash=oenajtykngh3w4ftw5mokiee5e)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1):
+  /next@15.0.3(patch_hash=tdbqjgao73lgfi55mfic6unsrm)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-ontCbCRKJUIoivAdGB34yCaOcPgYXr9AAkV/IwqFfWWTXEPUgLYkSkqBhIk9KK7gGmgjc64B+RdoeIDM13Irnw==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
     hasBin: true
@@ -4354,7 +4354,7 @@ packages:
       estree-walker: 3.0.3
       kleur: 4.1.5
       mri: 1.2.0
-      next: 15.0.3(patch_hash=oenajtykngh3w4ftw5mokiee5e)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1)
+      next: 15.0.3(patch_hash=tdbqjgao73lgfi55mfic6unsrm)(@babel/core@7.26.0)(react-dom@18.3.1)(react@18.3.1)
       playwright: 1.49.1
       preact: 10.25.3
       react: 18.3.1

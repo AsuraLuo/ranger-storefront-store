@@ -1,15 +1,14 @@
 diff --git a/dist/shared/lib/router/router.js b/dist/shared/lib/router/router.js
-index 36df3bc1fd5918cdc1a6115efba938d2670ebeac..b66d6dac4bd84814eef25e49f8f76aaa122dd28c 100644
+index 36df3bc1fd5918cdc1a6115efba938d2670ebeac..2d01182b3f3cfc4a477f4ae1171439ffc5a9e947 100644
 --- a/dist/shared/lib/router/router.js
 +++ b/dist/shared/lib/router/router.js
-@@ -269,7 +269,9 @@ function tryToParseAsJSON(text) {
+@@ -269,7 +269,8 @@ function tryToParseAsJSON(text) {
      }
  }
  function fetchNextData(param) {
 -    let { dataHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
 +    let { dataHref: fetchHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
-+    const dataHref = window.localePrefix + fetchHref;
-+    console.info('dataHref:', dataHref);
++    const dataHref = window.localePrefix ? window.localePrefix + fetchHref : fetchHref;
      const { href: cacheKey } = new URL(dataHref, window.location.href);
      const getData = (params)=>{
          var _params_method;
