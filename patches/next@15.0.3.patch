@@ -1,15 +1,15 @@
 diff --git a/dist/shared/lib/router/router.js b/dist/shared/lib/router/router.js
-index 36df3bc1fd5918cdc1a6115efba938d2670ebeac..fc60658113fa71ae89e274b3224d4486ec493bd4 100644
+index 36df3bc1fd5918cdc1a6115efba938d2670ebeac..b66d6dac4bd84814eef25e49f8f76aaa122dd28c 100644
 --- a/dist/shared/lib/router/router.js
 +++ b/dist/shared/lib/router/router.js
-@@ -270,7 +270,9 @@ function tryToParseAsJSON(text) {
+@@ -269,7 +269,9 @@ function tryToParseAsJSON(text) {
+     }
  }
  function fetchNextData(param) {
-     let { dataHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
--    const { href: cacheKey } = new URL(dataHref, window.location.href);
-+    const fetchHref = window.localePrefix + dataHref;
-+    console.info('fetchHref:', fetchHref);
-+    const { href: cacheKey } = new URL(fetchHref, window.location.href);
+-    let { dataHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
++    let { dataHref: fetchHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
++    const dataHref = window.localePrefix + fetchHref;
++    console.info('dataHref:', dataHref);
+     const { href: cacheKey } = new URL(dataHref, window.location.href);
      const getData = (params)=>{
          var _params_method;
-         return fetchRetry(dataHref, isServerRender ? 3 : 1, {
