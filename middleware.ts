@@ -5,7 +5,6 @@ import { domainConf } from "@/config/domain.conf";
 
 const {
   ip,
-  // i18n: { defaultLocale, locales },
   i18n: { defaultLocale },
   cookie,
   whiteList,
@@ -16,13 +15,18 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
   const url = request.nextUrl.clone();
   const { locale } = url;
 
+  const cookiePath: string = locale === defaultLocale ? "/" : `/${locale}`;
+
   // Check if pathname starts with a locale and is in the whitelist
   if (whiteList.includes(pathname) && locale !== defaultLocale) {
     url.locale = defaultLocale;
     const redirectReponse = NextResponse.redirect(url);
     // Set cookies for locale
     redirectReponse.headers.set(cookie.key, defaultLocale);
-    redirectReponse.cookies.set(cookie.key, defaultLocale, cookie.options);
+    redirectReponse.cookies.set(cookie.key, defaultLocale, {
+      ...cookie.options,
+      path: cookiePath,
+    });
     return redirectReponse;
   }
 
@@ -39,8 +43,14 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     const response = NextResponse.next();
     response.headers.set(cookie.key, locale);
     response.headers.set(ip.key, ipAddress);
-    response.cookies.set(cookie.key, locale, cookie.options);
-    response.cookies.set(ip.key, ipAddress, cookie.options);
+    response.cookies.set(cookie.key, locale, {
+      ...cookie.options,
+      path: cookiePath,
+    });
+    response.cookies.set(ip.key, ipAddress, {
+      ...cookie.options,
+      path: cookiePath,
+    });
     return response;
   }
 
@@ -86,9 +96,18 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     response.headers.set(cookie.key, locale);
     response.headers.set(ip.key, ipAddress);
     // response.headers.set(ip.countryKey, countryName);
-    response.cookies.set(cookie.key, locale, cookie.options);
-    response.cookies.set(ip.key, ipAddress, cookie.options);
-    // response.cookies.set(ip.countryKey, countryName, cookie.options);
+    response.cookies.set(cookie.key, locale, {
+      ...cookie.options,
+      path: cookiePath,
+    });
+    response.cookies.set(ip.key, ipAddress, {
+      ...cookie.options,
+      path: cookiePath,
+    });
+    // response.cookies.set(ip.countryKey, countryName, {
+    // ...cookie.options,
+    // path: cookiePath,
+    // });
     return response;
   } catch (error) {
     console.info("error:", error);
