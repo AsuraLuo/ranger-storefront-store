@@ -8,7 +8,7 @@ const { i18n, whiteList } = domainConf;
 const Link: React.FC<LinkProps & { children: React.ReactNode }> = ({
   children,
   href = "",
-  prefetch = true,
+  prefetch = false,
   ...props
 }) => {
   if (typeof href === "string") {
