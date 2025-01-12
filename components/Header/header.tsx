@@ -3,10 +3,12 @@ import { parseCookies } from "nookies";
 import Button from "@mui/material/Button";
 
 import { useRouter } from "@/hooks/Router";
+import { useAxios } from "@/provider";
 import Link from "@/components/Link";
 import { StyledHeader, StyledInner, StyledActions } from "./styled";
 
 const Header = () => {
+  const axiosInstance = useAxios();
   const router = useRouter();
 
   const onRedirect = (url: string) => {
@@ -17,6 +19,17 @@ const Header = () => {
     const cookies = parseCookies();
     console.info("CSR Cookies:", cookies);
   }, []);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const { data } = await axiosInstance.get(
+        "/api/config/api/mallConfig/getCurrentTime"
+      );
+      console.info(data);
+    };
+
+    fetchApi();
+  }, [axiosInstance]);
 
   return (
     <StyledHeader>

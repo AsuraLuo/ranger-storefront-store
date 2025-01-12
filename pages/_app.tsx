@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Profiler } from "react";
-import { withScan } from "react-scan";
+// import { withScan } from "react-scan";
 import CssBaseline from "@mui/material/CssBaseline";
 import type { AppProps, AppContext } from "next/app";
 import type { AxiosInstance } from "axios";
@@ -81,4 +81,5 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   return { pageProps };
 };
 
-export default withScan(withAxios(App));
+// export default withScan(withAxios(App));
+export default withAxios(App);
