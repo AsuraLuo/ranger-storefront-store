@@ -20,6 +20,9 @@ const AppDocument = (props: AppDocumentProps) => {
         <link rel="icon" href="/favicon.ico" />
         <DocumentHeadTags {...props} />
         {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" /> */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.localePrefix = "/${props.locale}";
+        `}} />
       </Head>
       <body>
         <Main />
