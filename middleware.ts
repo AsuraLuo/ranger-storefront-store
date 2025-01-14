@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { parse } from "cookie";
 import type { NextRequest, NextMiddleware } from "next/server";
 
 import { domainConf } from "@/config/domain.conf";
+import { parsetCookies } from "@/utils/middleware";
 
 const {
   ip,
@@ -17,7 +17,7 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
   const { locale } = url;
   const cookiePath: string = locale === defaultLocale ? "/" : `/${locale}`;
 
-  const cookies = parse(request.headers.get("cookie") as string);
+  const cookies = parsetCookies(request.headers.get("cookie") || "");
   console.info("Middleware cookies:", cookies);
 
   // Check if pathname starts with a locale and is in the whitelist
@@ -44,16 +44,16 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
   if (whiteList.includes(pathname)) {
     // Handle other requests normally
     const response = NextResponse.next();
-    response.headers.set(cookie.key, locale);
-    response.headers.set(ip.key, ipAddress);
-    response.cookies.set(cookie.key, locale, {
-      ...cookie.options,
-      path: cookiePath,
-    });
-    response.cookies.set(ip.key, ipAddress, {
-      ...cookie.options,
-      path: cookiePath,
-    });
+    // response.headers.set(cookie.key, locale);
+    // response.headers.set(ip.key, ipAddress);
+    // response.cookies.set(cookie.key, locale, {
+    //   ...cookie.options,
+    //   path: cookiePath,
+    // });
+    // response.cookies.set(ip.key, ipAddress, {
+    //   ...cookie.options,
+    //   path: cookiePath,
+    // });
     return response;
   }
 
@@ -97,16 +97,16 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     // Handle other requests normally
     const response = NextResponse.next();
     response.headers.set(cookie.key, locale);
+    response.cookies.set(`${locale}__${cookie.key}`, ipAddress, {
+      ...cookie.options,
+      path: cookiePath,
+    });
     response.headers.set(ip.key, ipAddress);
+    response.cookies.set(`${locale}__${ip.key}`, locale, {
+      ...cookie.options,
+      path: cookiePath,
+    });
     // response.headers.set(ip.countryKey, countryName);
-    response.cookies.set(cookie.key, locale, {
-      ...cookie.options,
-      path: cookiePath,
-    });
-    response.cookies.set(ip.key, ipAddress, {
-      ...cookie.options,
-      path: cookiePath,
-    });
     // response.cookies.set(ip.countryKey, countryName, {
     // ...cookie.options,
     // path: cookiePath,
