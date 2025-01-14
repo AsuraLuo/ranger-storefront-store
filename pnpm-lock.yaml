@@ -31,6 +31,9 @@ dependencies:
   axios:
     specifier: ^1.7.8
     version: 1.7.8
+  cookie:
+    specifier: ^1.0.2
+    version: 1.0.2
   http-proxy-middleware:
     specifier: ^3.0.3
     version: 3.0.3
@@ -2119,6 +2122,11 @@ packages:
   /cookie@0.4.2:
     resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /cookie@1.0.2:
+    resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
+    engines: {node: '>=18'}
     dev: false
 
   /core-util-is@1.0.3:

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as middlewareCookie from "cookie";
 import type { NextRequest, NextMiddleware } from "next/server";
 
 import { domainConf } from "@/config/domain.conf";
@@ -14,8 +15,12 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
   const url = request.nextUrl.clone();
   const { locale } = url;
-
   const cookiePath: string = locale === defaultLocale ? "/" : `/${locale}`;
+
+  const cookies = middlewareCookie.parse(
+    request.headers.get("cookie") as string
+  );
+  console.info("Middleware cookies:", cookies);
 
   // Check if pathname starts with a locale and is in the whitelist
   if (whiteList.includes(pathname) && locale !== defaultLocale) {

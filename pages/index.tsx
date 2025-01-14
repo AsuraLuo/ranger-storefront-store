@@ -1,17 +1,11 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import nookies from "nookies";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import { parseCookies } from "nookies";
 import type { NextPageContext } from "next/types";
 import type { AxiosInstance } from "axios";
-
-import { domainConf } from "@/config/domain.conf";
-
-const {
-  i18n: { defaultLocale },
-} = domainConf;
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -50,12 +44,10 @@ const Home = ({ ...props }) => {
 };
 
 Home.getInitialProps = async (ctx: PageContext) => {
-  const { axiosInstance, locale } = ctx;
-  const cookiePath: string = locale === defaultLocale ? "/" : `/${locale}`;
-  const cookies = nookies.get(ctx, {
-    path: cookiePath,
+  const { axiosInstance, req } = ctx;
+  const cookies = parseCookies({
+    req,
   });
-
   console.info("SSR Cookies:", cookies);
 
   try {
