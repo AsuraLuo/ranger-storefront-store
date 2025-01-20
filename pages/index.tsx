@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import type { NextPageContext } from "next/types";
 import type { AxiosInstance } from "axios";
 
-import { serverCookies } from "@/utils/cookies";
+import { serverCookie } from "@/utils/cookies";
 
 // const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -46,7 +46,7 @@ const Home = ({ ...props }) => {
 
 Home.getInitialProps = async (ctx: PageContext) => {
   const { req } = ctx;
-  const cookies = serverCookies.getAll({
+  const cookies = serverCookie.getAll({
     req,
   });
   console.info("SSR Cookies:", cookies);

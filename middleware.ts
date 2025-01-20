@@ -10,15 +10,19 @@ const {
   cookie,
   whiteList,
 } = domainConf;
+const split: string = "__";
 
 export const middleware: NextMiddleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
   const url = request.nextUrl.clone();
   const { locale } = url;
   const cookiePath: string = locale === defaultLocale ? "/" : `/${locale}`;
+  const prefix: string = `${locale}${split}`;
 
   const cookies = parsetCookies(request.headers.get("cookie") || "");
   console.info("Middleware cookies:", cookies);
+  // const store: string = cookies?.[`${locale}__x-store-code`] ?? "";
+  // console.info("Store code:", store);
 
   // Check if pathname starts with a locale and is in the whitelist
   if (whiteList.includes(pathname) && locale !== defaultLocale) {
@@ -96,21 +100,34 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
     // Handle other requests normally
     const response = NextResponse.next();
+
     response.headers.set(cookie.key, locale);
-    response.cookies.set(`${locale}__${cookie.key}`, ipAddress, {
+    response.cookies.set(`${prefix}${cookie.key}`, locale, {
       ...cookie.options,
       path: cookiePath,
     });
     response.headers.set(ip.key, ipAddress);
-    response.cookies.set(`${locale}__${ip.key}`, locale, {
+    response.cookies.set(`${prefix}${ip.key}`, ipAddress, {
       ...cookie.options,
       path: cookiePath,
     });
     // response.headers.set(ip.countryKey, countryName);
     // response.cookies.set(ip.countryKey, countryName, {
-    // ...cookie.options,
-    // path: cookiePath,
+    //   ...cookie.options,
+    //   path: cookiePath,
     // });
+
+    const cacheStore = cookies?.[cookie.key] ?? "";
+    console.info("cacheStore:", cacheStore, locale);
+    if (cacheStore && cacheStore !== locale) {
+      response.cookies.set(ip.key, cacheStore, {
+        expires: new Date(0), // Set expiration date to the past
+      });
+      response.cookies.set(cookie.key, cacheStore, {
+        expires: new Date(0), // Set expiration date to the past
+      });
+    }
+
     return response;
   } catch (error) {
     console.info("error:", error);

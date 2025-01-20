@@ -1,4 +1,5 @@
 import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { isString } from "lodash-es";
 
 export interface Options {
   domain?: string;
@@ -21,15 +22,29 @@ const defaultOptions: Options = {
 const setItem = (
   ctx: any = null,
   name: string,
-  value: string,
+  value: any,
   options?: Options
 ) => {
-  setCookie(ctx, name, value, { ...defaultOptions, ...options });
+  const stringValue = typeof value === "string" ? value : JSON.stringify(value);
+  setCookie(ctx, name, stringValue, { ...defaultOptions, ...options });
+};
+
+const readCookie = (value: string) => {
+  if (!isString(value)) {
+    return value;
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    return parsed;
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const getItem = (ctx: any = null, name: string) => {
   const cookies = parseCookies(ctx);
-  return cookies[name];
+  return readCookie(cookies[name]);
 };
 
 const getAll = (ctx: any = null) => {
@@ -41,7 +56,7 @@ const removeItem = (ctx: any = null, name: string, options?: Options) => {
   destroyCookie(ctx, name, { ...defaultOptions, ...options });
 };
 
-export const serverCookies = {
+export const serverCookie = {
   setItem,
   getItem,
   getAll,

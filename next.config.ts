@@ -5,7 +5,7 @@ import { domainConf } from "@/config/domain.conf";
 const { i18n } = domainConf;
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   i18n: {
     defaultLocale: i18n.defaultLocale,
     locales: i18n.locales,

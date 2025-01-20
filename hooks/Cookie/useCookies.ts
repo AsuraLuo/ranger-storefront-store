@@ -1,4 +1,4 @@
-import { serverCookies } from "@/utils/cookies";
+import { serverCookie } from "@/utils/cookies";
 
 export interface Options {
   domain?: string;
@@ -12,8 +12,8 @@ export interface Options {
 }
 
 interface Cookie {
-  setItem: (name: string, value: string, options?: Options) => void;
-  getItem: (name: string) => string;
+  setItem: (name: string, value: any, options?: Options) => void;
+  getItem: (name: string) => any;
   getAll: () => any;
   removeItem: (name: string, options?: Options) => void;
 }
@@ -21,12 +21,12 @@ interface Cookie {
 export const useCookies = () => {
   const cookie: Cookie = {
     setItem: (name: string, value: string, options?: Options) => {
-      serverCookies.setItem(null, name, value, options);
+      serverCookie.setItem(null, name, value, options);
     },
-    getItem: (name: string) => serverCookies.getItem(null, name),
-    getAll: () => serverCookies.getAll(null),
+    getItem: (name: string) => serverCookie.getItem(null, name),
+    getAll: () => serverCookie.getAll(null),
     removeItem: (name: string, options?: Options) => {
-      serverCookies.removeItem(null, name, options);
+      serverCookie.removeItem(null, name, options);
     },
   };
 

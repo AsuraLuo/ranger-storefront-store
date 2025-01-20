@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { parseCookies } from "nookies";
 import Button from "@mui/material/Button";
 
 import { useRouter } from "@/hooks/Router";
 import { useAxios } from "@/provider";
+import { clientCookie } from "@/utils/client";
 import Link from "@/components/Link";
 import { StyledHeader, StyledInner, StyledActions } from "./styled";
 
@@ -16,16 +16,19 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const cookies = parseCookies();
-    console.info("CSR Cookies:", cookies);
+    console.info("CSR Cookies:", clientCookie.getItem("i18n"));
   }, []);
 
   useEffect(() => {
     const fetchApi = async () => {
-      const { data } = await axiosInstance.get(
-        "/api/config/api/mallConfig/getCurrentTime"
-      );
-      console.info(data);
+      try {
+        const { data } = await axiosInstance.get(
+          "/api/config/api/mallConfig/getCurrentTime"
+        );
+        console.info(data);
+      } catch (error) {
+        console.info(error);
+      }
     };
 
     fetchApi();
@@ -56,6 +59,14 @@ const Header = () => {
           <Button
             variant="contained"
             onClick={() => {
+              // clientCookie.setItem("i18n", {
+              //   locale: "en",
+              //   params: {
+              //     "global.yes": "Yes",
+              //     "global.no": "No",
+              //   },
+              // });
+              clientCookie.setItem("i18n", "10086");
               onRedirect("/login");
             }}
           >
