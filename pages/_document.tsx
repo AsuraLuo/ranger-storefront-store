@@ -7,6 +7,7 @@ import {
 import { DocumentProps, Head, Html, Main, NextScript } from "next/document";
 
 import { cache } from "@/config/cache";
+import { domainConf } from "@/config/domain.conf";
 
 interface AppDocumentProps extends DocumentProps {
   emotionStyleTags: React.ReactElement<any>[];
@@ -20,9 +21,17 @@ const AppDocument = (props: AppDocumentProps) => {
         <link rel="icon" href="/favicon.ico" />
         <DocumentHeadTags {...props} />
         {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" /> */}
-        <script dangerouslySetInnerHTML={{ __html: `
-          window.localePrefix = "/${props.locale}";
-        `}} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.localePrefix = "${
+                props.locale === domainConf.i18n.defaultLocale
+                  ? ""
+                  : `/${props.locale}`
+              }";
+            `,
+          }}
+        />
       </Head>
       <body>
         <Main />
