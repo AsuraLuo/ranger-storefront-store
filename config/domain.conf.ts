@@ -8,8 +8,9 @@ type DomainConf = {
     apiUrl: string;
   };
   i18n: {
-    locales: string[];
+    currentLocale: string;
     defaultLocale: string;
+    locales: string[];
   };
   cookie: {
     key: string;
@@ -26,8 +27,9 @@ export const domainConf: DomainConf = {
     apiUrl: "https://api.ipgeolocation.io/ipgeo",
   },
   i18n: {
-    locales: ["en", "at", "de", "au", "ca", "uk", "es", "fr", "it", "jp", "kr"],
+    currentLocale: "fr",
     defaultLocale: "en",
+    locales: ["en", "at", "de", "au", "ca", "uk", "es", "fr", "it", "jp", "kr"],
   },
   cookie: {
     key: "x-store-code",
@@ -38,5 +40,5 @@ export const domainConf: DomainConf = {
       sameSite: "lax",
     },
   },
-  whiteList: ["/choose-country"],
+  whiteList: [""],
 };

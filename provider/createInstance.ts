@@ -1,6 +1,8 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
 
+import { domainConf } from "@/config/domain.conf";
+
 type InstanceType = {
   domain: string;
   locale: string;
@@ -11,7 +13,11 @@ export const createInstance = ({
   locale,
 }: InstanceType): AxiosInstance => {
   const isServer: boolean = typeof window === "undefined";
-  const baseURL: string = isServer ? domain : window.location.origin;
+  const apiURL: string = isServer ? domain : window.location.origin;
+  const prefix: string =
+    locale === domainConf.i18n.defaultLocale ? "" : `/${locale}`;
+  const baseURL: string = `${apiURL}${prefix}/api`;
+
   const instance = axios.create({
     baseURL,
     method: "GET",

@@ -23,7 +23,7 @@ const Header = () => {
     const fetchApi = async () => {
       try {
         const { data } = await axiosInstance.get(
-          "/api/config/api/mallConfig/getCurrentTime"
+          "/config/api/mallConfig/getCurrentTime"
         );
         console.info(data);
       } catch (error) {

@@ -1,4 +1,4 @@
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,7 +8,7 @@ import type { AxiosInstance } from "axios";
 
 import { serverCookie } from "@/utils/cookies";
 
-// const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
+const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 interface PageContext extends NextPageContext {
   axiosInstance: AxiosInstance;
@@ -28,7 +28,7 @@ const Home = ({ ...props }) => {
           <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
             {locale.toLocaleUpperCase()} Website Home Page
           </Typography>
-          {/* <div>
+          <div>
             <ReactJson
               src={props?.data ?? {}}
               theme="monokai"
@@ -37,7 +37,7 @@ const Home = ({ ...props }) => {
               enableClipboard={false}
               displayDataTypes={false}
             />
-          </div> */}
+          </div>
         </Box>
       </Container>
     </>
@@ -45,19 +45,19 @@ const Home = ({ ...props }) => {
 };
 
 Home.getInitialProps = async (ctx: PageContext) => {
-  const { req } = ctx;
+  const { axiosInstance, req } = ctx;
   const cookies = serverCookie.getAll({
     req,
   });
   console.info("SSR Cookies:", cookies);
 
-  // try {
-  //   const { data } = await axiosInstance.get("/api/config/api/country/list");
-  //   return { data };
-  // } catch (error: any) {
-  //   console.info("error:", error);
-  //   return { data: {} };
-  // }
+  try {
+    const { data } = await axiosInstance.get("/config/api/country/list");
+    return { data };
+  } catch (error: any) {
+    console.info("error:", error);
+    return { data: {} };
+  }
 };
 
 export default Home;

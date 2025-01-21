@@ -176,7 +176,7 @@ Home.getInitialProps = async (ctx: PageContext) => {
   const { axiosInstance } = ctx;
 
   try {
-    const { data } = await axiosInstance.get("/api/config/api/country/list");
+    const { data } = await axiosInstance.get("/config/api/country/list");
     return { data };
   } catch (error: any) {
     console.info("error:", error);
@@ -201,7 +201,7 @@ const Header = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const { data } = await axiosInstance.get(
-        "/api/config/api/mallConfig/getCurrentTime"
+        "/config/api/mallConfig/getCurrentTime"
       );
       console.info(data);
     };
