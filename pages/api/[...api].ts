@@ -6,7 +6,7 @@ import { domainConf } from "@/config/domain.conf";
 const { i18n } = domainConf;
 
 const apiMap: any = {
-  en: "https://uat-api.olightstore.com",
+  en: "https://uat-api.olight.com",
   uk: "https://uat-api.olightstore.uk",
   fr: "https://uat-api.olightstore.fr",
   ca: "https://uat-api.olightstore.ca",
