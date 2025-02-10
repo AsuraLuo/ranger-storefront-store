@@ -7,7 +7,7 @@ const { i18n } = domainConf;
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   basePath:
-    i18n.currentLocale === i18n.defaultLocale ? "/" : `/${i18n.currentLocale}`,
+    i18n.currentLocale === i18n.defaultLocale ? "" : `/${i18n.currentLocale}`,
   i18n: {
     defaultLocale: i18n.currentLocale,
     locales: [i18n.currentLocale],
